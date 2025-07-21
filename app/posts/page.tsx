@@ -36,7 +36,10 @@ export default function PostsPage() {
   if (error) return <div>Error: {error}</div>;
 
   return (
-    <div>
+    <div className="container mx-auto p-4">
+      <Link href="/" className="text-blue-500 hover:underline">
+        Back to Home
+      </Link>
       <h1>Posts</h1>
       <Link href={`/posts/add`}>
         <button className="bg-yellow-500 text-white p-2 rounded mr-2">
@@ -46,7 +49,9 @@ export default function PostsPage() {
       <ul>
         {posts.map((post) => (
           <li key={post.id}>
-            <h2>{post.title}</h2>
+            <Link href={`/posts/${post.id}`}>
+              <h2 className="text-blue-500 hover:underline">{post.title}</h2>
+            </Link>
             <p>{post.content}</p>
             <p>By: {post.user_name}</p>
             <p>Car: {post.car_make} {post.car_model}</p>

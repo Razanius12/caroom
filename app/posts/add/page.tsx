@@ -54,13 +54,15 @@ export default function AddPostPage() {
       router.push('/posts');
     } catch (error) {
       console.error('Error adding post:', error);
-      // You might want to add some UI feedback here
       alert(error instanceof Error ? error.message : 'Failed to add post');
     }
   };
 
   return (
     <div className="container mx-auto p-4">
+      <Link href="/posts" className="mt-4 inline-block bg-gray-500 text-white p-2 rounded">
+        Back to Posts
+      </Link>
       <h1 className="text-2xl font-bold mb-4">Add New Post</h1>
       <form onSubmit={handleSubmit} className="grid gap-4">
         <input type="text" name="title" placeholder="Title" required className="p-2 border rounded" />
@@ -85,9 +87,6 @@ export default function AddPostPage() {
 
         <button type="submit" className="bg-blue-500 text-white p-2 rounded">Create Post</button>
       </form>
-      <Link href="/posts" className="mt-4 inline-block bg-gray-500 text-white p-2 rounded">
-        Back to Posts
-      </Link>
     </div>
   );
 }

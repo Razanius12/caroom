@@ -69,7 +69,10 @@ export default function CarsPage() {
 
   return (
     <div className="container mx-auto p-4">
-      <h1 className="text-2xl font-bold mb-4">Cars Management</h1>
+      <Link href="/" className="text-blue-500 hover:underline">
+        Back to Home
+      </Link>
+      <h1 className="text-2xl font-bold mb-4">Car List</h1>
 
       <form onSubmit={handleSubmit} className="mb-8">
         <div className="grid gap-4">

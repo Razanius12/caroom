@@ -81,6 +81,9 @@ export default function EditPostPage(context: { params: Promise<{ id: string }> 
 
   return (
     <div className="container mx-auto p-4">
+      <Link href={`/posts/${id}`} className="text-blue-500 hover:underline">
+        Back to Post
+      </Link>
       <h1 className="text-2xl font-bold mb-4">Edit Post</h1>
       <form onSubmit={handleSubmit} className="grid gap-4">
         <input
@@ -135,9 +138,6 @@ export default function EditPostPage(context: { params: Promise<{ id: string }> 
           Update Post
         </button>
       </form>
-      <Link href="/posts" className="mt-4 inline-block bg-gray-500 text-white p-2 rounded">
-        Back to Posts
-      </Link>
     </div>
   );
 }

@@ -1,5 +1,6 @@
 'use client';
 import React from 'react'
+import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { useDispatch, useSelector } from 'react-redux';
@@ -46,6 +47,9 @@ export default function EditCarPage(context: { params: Promise<{ id: string }> }
 
   return (
     <div className="container mx-auto p-4">
+      <Link href={`/cars/${id}`} className="text-blue-500 hover:underline">
+        Back to Car
+      </Link>
       <h1 className="text-2xl font-bold mb-4">Edit Car</h1>
       <form onSubmit={handleSubmit} className="grid gap-4">
         <input

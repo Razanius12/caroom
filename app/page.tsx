@@ -10,7 +10,7 @@ export default function Home() {
       </Link>
       <br />
       <Link href="/cars" className="mt-4 inline-block bg-blue-500 text-white p-2 rounded">
-        Cars List
+        Car List
       </Link>
     </div>
   );
