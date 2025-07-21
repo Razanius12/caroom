@@ -1,0 +1,64 @@
+import { NextResponse } from 'next/server';
+import postgres from 'postgres';
+
+const sql = postgres(process.env.POSTGRES_URL!, { ssl: 'require' });
+
+function generatePostId(title: string): string {
+  // Convert to lowercase, replace spaces with hyphens, remove special characters
+  const baseSlug = title
+    .toLowerCase()
+    .replace(/\s+/g, '-')
+    .replace(/[^a-z0-9-]/g, '');
+  
+  // Add timestamp to ensure uniqueness
+  const timestamp = Date.now().toString(36);
+  return `${baseSlug}-${timestamp}`;
+}
+
+export async function GET() {
+  try {
+    const posts = await sql`
+    SELECT
+      posts.id,
+      posts.title,
+      users.name as user_name,
+      cars.make as car_make,
+      cars.model as car_model,
+      posts.created_at,
+      posts.type,
+      posts.likes
+    FROM posts
+    JOIN users ON posts.user_id = users.id
+    JOIN cars ON posts.car_id = cars.id
+`;
+    return NextResponse.json(posts);
+  } catch (error) {
+    return NextResponse.json({ error: 'Failed to fetch posts' }, { status: 500 });
+  }
+}
+
+// hardcoded user_id for demonstration purposes
+export async function POST(request: Request) {
+  try {
+    const { title, content, car_id, type } = await request.json();
+    const postId = generatePostId(title);
+    
+    const post = await sql`
+      INSERT INTO posts (id, user_id, title, content, car_id, type)
+      VALUES (
+        ${postId}, 
+        '410544b2-4001-4271-9855-fec4b6a6442a', 
+        ${title}, 
+        ${content}, 
+        ${car_id}, 
+        ${type}
+      )
+      RETURNING id, title, content, car_id, type, created_at, user_id
+    `;
+    
+    return NextResponse.json(post[0]);
+  } catch (error) {
+    console.error('Server error:', error);
+    return NextResponse.json({ error: 'Failed to create post' }, { status: 500 });
+  }
+}

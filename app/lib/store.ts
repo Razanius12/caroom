@@ -1,11 +1,11 @@
 import { configureStore } from '@reduxjs/toolkit';
-import counterReducer from '@/app/lib/features/counterSlice';
 import carReducer from '@/app/lib/features/carSlice';
+import postReducer from '@/app/lib/features/postSlice';
 
 export const store = configureStore({
   reducer: {
-    counter: counterReducer,
     cars: carReducer,
+    posts: postReducer,
   },
 });
 

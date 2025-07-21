@@ -53,7 +53,10 @@ export type LatestPost = {
 export type PostsTable = {
   id: string;
   title: string;
+  content: string;
+  user_id: string;
   user_name: string;
+  car_id: string;
   car_make: string;
   car_model: string;
   created_at: string;

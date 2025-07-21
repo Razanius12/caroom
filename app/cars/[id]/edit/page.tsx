@@ -1,5 +1,5 @@
 'use client';
-import * as React from 'react'
+import React from 'react'
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { useDispatch, useSelector } from 'react-redux';
