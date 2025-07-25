@@ -1,6 +1,7 @@
 'use client';
 
 import Link from 'next/link';
+import { useSession } from "next-auth/react";
 import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '@/app/lib/store';
@@ -8,6 +9,7 @@ import { setCars, addCar, updateCar, deleteCar } from '@/app/lib/features/carSli
 import { Car } from '@/app/lib/definitions';
 
 export default function CarsPage() {
+  const { data: session } = useSession();
   const dispatch = useDispatch();
   const { cars, loading, error } = useSelector((state: RootState) => state.cars);
   const [formData, setFormData] = useState<Partial<Car>>({
@@ -74,47 +76,51 @@ export default function CarsPage() {
       </Link>
       <h1 className="text-2xl font-bold mb-4">Car List</h1>
 
-      <form onSubmit={handleSubmit} className="mb-8">
-        <div className="grid gap-4">
-          <input
-            type="text"
-            placeholder="Make"
-            value={formData.make}
-            onChange={(e) => setFormData({ ...formData, make: e.target.value })}
-            className="p-2 border rounded"
-          />
-          <input
-            type="text"
-            placeholder="Model"
-            value={formData.model}
-            onChange={(e) => setFormData({ ...formData, model: e.target.value })}
-            className="p-2 border rounded"
-          />
-          <input
-            type="number"
-            placeholder="Year"
-            value={formData.year}
-            onChange={(e) => setFormData({ ...formData, year: parseInt(e.target.value) })}
-            className="p-2 border rounded"
-          />
-          <input
-            type="text"
-            placeholder="Image URL"
-            value={formData.image_url}
-            onChange={(e) => setFormData({ ...formData, image_url: e.target.value })}
-            className="p-2 border rounded"
-          />
-          <button type="submit" className="bg-blue-500 text-white p-2 rounded">
-            {editMode ? 'Update Car' : 'Add Car'}
-          </button>
-        </div>
-      </form>
+      {session && (
+        <form onSubmit={handleSubmit} className="mb-8">
+          <div className="grid gap-4">
+            <input
+              type="text"
+              placeholder="Make"
+              value={formData.make}
+              onChange={(e) => setFormData({ ...formData, make: e.target.value })}
+              className="p-2 border rounded"
+            />
+            <input
+              type="text"
+              placeholder="Model"
+              value={formData.model}
+              onChange={(e) => setFormData({ ...formData, model: e.target.value })}
+              className="p-2 border rounded"
+            />
+            <input
+              type="number"
+              placeholder="Year"
+              value={formData.year}
+              onChange={(e) => setFormData({ ...formData, year: parseInt(e.target.value) })}
+              className="p-2 border rounded"
+            />
+            <input
+              type="text"
+              placeholder="Image URL"
+              value={formData.image_url}
+              onChange={(e) => setFormData({ ...formData, image_url: e.target.value })}
+              className="p-2 border rounded"
+            />
+            <button type="submit" className="bg-blue-500 text-white p-2 rounded">
+              {editMode ? 'Update Car' : 'Add Car'}
+            </button>
+          </div>
+        </form>
+      )}
 
       <div className="grid gap-4">
         {cars.map((car) => (
           <div key={car.id} className="border p-4 rounded">
             <h3>{car.make} {car.model} ({car.year})</h3>
             <img src={car.image_url || ''} alt={`${car.make} ${car.model}`} className="w-32 h-32 object-cover" />
+            
+            {session && (
             <div className="mt-2">
               <Link href={`/cars/${car.id}/edit`}>
                 <button className="bg-yellow-500 text-white p-2 rounded mr-2">
@@ -128,6 +134,8 @@ export default function CarsPage() {
                 Delete
               </button>
             </div>
+            )}
+
           </div>
         ))}
       </div>

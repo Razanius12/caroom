@@ -1,5 +1,7 @@
+import { getServerSession } from "next-auth/next";
 import { NextResponse } from 'next/server';
 import postgres from 'postgres';
+import { authOptions } from '../auth/auth.config';
 
 const sql = postgres(process.env.POSTGRES_URL!, { ssl: 'require' });
 
@@ -37,28 +39,28 @@ export async function GET() {
   }
 }
 
-// hardcoded user_id for demonstration purposes
 export async function POST(request: Request) {
+  const session = await getServerSession(authOptions);
+
+  if (!session) {
+    console.error('No session found');
+    return NextResponse.json({ error: 'Please sign in to create a post' }, { status: 401 });
+  }
+
   try {
     const { title, content, car_id, type } = await request.json();
+
     const postId = generatePostId(title);
     
     const post = await sql`
       INSERT INTO posts (id, user_id, title, content, car_id, type)
-      VALUES (
-        ${postId}, 
-        '410544b2-4001-4271-9855-fec4b6a6442a', 
-        ${title}, 
-        ${content}, 
-        ${car_id}, 
-        ${type}
-      )
-      RETURNING id, title, content, car_id, type, created_at, user_id
+      VALUES (${postId}, ${session.user.id}, ${title}, ${content}, ${car_id}, ${type})
+      RETURNING *
     `;
     
     return NextResponse.json(post[0]);
   } catch (error) {
-    console.error('Server error:', error);
+    console.error('Post creation error:', error);
     return NextResponse.json({ error: 'Failed to create post' }, { status: 500 });
   }
 }

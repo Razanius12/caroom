@@ -1,6 +1,7 @@
 'use client';
 
 import Link from 'next/link';
+import { useSession } from "next-auth/react";
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '@/app/lib/store';
@@ -8,6 +9,7 @@ import { setPosts, deletePost } from '@/app/lib/features/postSlice';
 
 export default function PostsPage() {
   const dispatch = useDispatch();
+  const { data: session } = useSession();
   const { posts, loading, error } = useSelector((state: RootState) => state.posts);
 
   useEffect(() => {
@@ -41,11 +43,16 @@ export default function PostsPage() {
         Back to Home
       </Link>
       <h1>Posts</h1>
-      <Link href={`/posts/add`}>
-        <button className="bg-yellow-500 text-white p-2 rounded mr-2">
-          Create Post
-        </button>
-      </Link>
+
+      {session && (
+        <Link href={`/posts/add`}>
+          <button className="bg-yellow-500 text-white p-2 rounded mr-2">
+            Create Post
+          </button>
+        </Link>
+      )}
+
+
       <ul>
         {posts.map((post) => (
           <li key={post.id}>
@@ -56,17 +63,21 @@ export default function PostsPage() {
             <p>By: {post.user_name}</p>
             <p>Car: {post.car_make} {post.car_model}</p>
             <p>Type: {post.type}</p>
-            <Link href={`/posts/${post.id}/edit`}>
-              <button className="bg-yellow-500 text-white p-2 rounded mr-2">
-                Edit
+            {session?.user?.name === post.user_name && (
+              <Link href={`/posts/${post.id}/edit`}>
+                <button className="bg-yellow-500 text-white p-2 rounded mr-2">
+                  Edit
+                </button>
+              </Link>
+            )}
+            {session?.user?.name === post.user_name && (
+              <button
+                onClick={() => handleDelete(post.id)}
+                className="bg-red-500 text-white p-2 rounded"
+              >
+                Delete
               </button>
-            </Link>
-            <button
-              onClick={() => handleDelete(post.id)}
-              className="bg-red-500 text-white p-2 rounded"
-            >
-              Delete
-            </button>
+            )}
           </li>
         ))}
       </ul>

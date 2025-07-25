@@ -1,5 +1,7 @@
 import { NextResponse, NextRequest } from 'next/server';
 import postgres from 'postgres';
+import { getServerSession } from "next-auth/next";
+import { authOptions } from '../../auth/auth.config';
 
 const sql = postgres(process.env.POSTGRES_URL!, { ssl: 'require' });
 
@@ -30,12 +32,18 @@ export async function GET(request: NextRequest, context: { params: Promise<{ id:
 }
 
 export async function PUT(request: NextRequest, context: { params: Promise<{ id: string }> }) {
+  const session = await getServerSession(authOptions);
+
+  if (!session) {
+    console.error('No session found');
+    return NextResponse.json({ error: 'Please sign in to create a post' }, { status: 401 });
+  }
   const { id } = await context.params;
   try {
     const { title, content, car_id, type } = await request.json();
     const post = await sql`
       UPDATE posts
-      SET user_id = '410544b2-4001-4271-9855-fec4b6a6442a', title = ${title}, content = ${content}, car_id = ${car_id}, type = ${type}
+      SET user_id = ${session.user.id}, title = ${title}, content = ${content}, car_id = ${car_id}, type = ${type}
       WHERE id = ${id}
       RETURNING *
     `;
