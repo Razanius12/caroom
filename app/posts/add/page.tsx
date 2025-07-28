@@ -60,32 +60,43 @@ export default function AddPostPage() {
 
   return (
     <div className="container mx-auto p-4">
-      <Link href="/posts" className="mt-4 inline-block bg-gray-500 text-white p-2 rounded">
+      <Link href="/posts" className="text-decoration-none">
         Back to Posts
       </Link>
       <h1 className="text-2xl font-bold mb-4">Add New Post</h1>
       <form onSubmit={handleSubmit} className="grid gap-4">
-        <input type="text" name="title" placeholder="Title" required className="p-2 border rounded" />
-        <textarea name="content" placeholder="Content" required className="p-2 border rounded"></textarea>
+        <label htmlFor="title">Title</label>
+        <div className="form-group mb-2">
+          <input type="text" name="title" placeholder="Title" required className="p-2 border rounded col-6" />
+        </div>
+        <label htmlFor="content">Content</label>
+        <div className="form-group mb-2">
+          <textarea name="content" placeholder="Content" required className="p-2 border rounded col-6"></textarea>
+        </div>
+        <label htmlFor="car_id">Car</label>
+        <div className="form-group mb-2">
+          <select name="car_id" required className="p-2 border rounded col-6">
+            <option value="">Select a car</option>
+            {cars.map((car) => (
+              <option key={car.id} value={car.id}>
+                {car.make} {car.model}
+              </option>
+            ))}
+          </select>
+        </div>
+        <label htmlFor="type">Post Type</label>
+        <div className="form-group mb-2">
+          <select name="type" required className="p-2 border rounded col-6">
+            <option value="">Select post type</option>
+            <option value="discussion">Discussion</option>
+            <option value="review">Review</option>
+            <option value="question">Question</option>
+            <option value="news">News</option>
+          </select>
+        </div>
+        <br />
 
-        <select name="car_id" required className="p-2 border rounded">
-          <option value="">Select a car</option>
-          {cars.map((car) => (
-            <option key={car.id} value={car.id}>
-              {car.make} {car.model}
-            </option>
-          ))}
-        </select>
-
-        <select name="type" required className="p-2 border rounded">
-          <option value="">Select post type</option>
-          <option value="discussion">Discussion</option>
-          <option value="review">Review</option>
-          <option value="question">Question</option>
-          <option value="news">News</option>
-        </select>
-
-        <button type="submit" className="bg-blue-500 text-white p-2 rounded">Create Post</button>
+        <button type="submit" className="bg-primary text-white p-2 rounded">Create Post</button>
       </form>
     </div>
   );

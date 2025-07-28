@@ -60,13 +60,13 @@ export default function RegisterPage() {
           required
           className="p-2 border rounded"
         />
-        <button type="submit" className="bg-blue-500 text-white p-2 rounded">
+        <button type="submit" className="bg-primary text-white p-2 rounded">
           Register
         </button>
       </form>
       <p className="mt-4">
         Already have an account?{" "}
-        <Link href="/auth/login" className="text-blue-500 hover:underline">
+        <Link href="/auth/login" className="text-decoration-none">
           Login
         </Link>
       </p>

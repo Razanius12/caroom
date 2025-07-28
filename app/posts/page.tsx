@@ -6,6 +6,7 @@ import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '@/app/lib/store';
 import { setPosts, deletePost } from '@/app/lib/features/postSlice';
+import { BackToHome } from '../components/BackToHome';
 
 export default function PostsPage() {
   const dispatch = useDispatch();
@@ -39,14 +40,12 @@ export default function PostsPage() {
 
   return (
     <div className="container mx-auto p-4">
-      <Link href="/" className="text-blue-500 hover:underline">
-        Back to Home
-      </Link>
+      <BackToHome />
       <h1>Posts</h1>
 
       {session && (
         <Link href={`/posts/add`}>
-          <button className="bg-yellow-500 text-white p-2 rounded mr-2">
+          <button className="bg-info p-2 rounded mr-2 mb-2">
             Create Post
           </button>
         </Link>
@@ -65,7 +64,7 @@ export default function PostsPage() {
             <p>Type: {post.type}</p>
             {session?.user?.name === post.user_name && (
               <Link href={`/posts/${post.id}/edit`}>
-                <button className="bg-yellow-500 text-white p-2 rounded mr-2">
+                <button className="bg-warning p-2 rounded me-2">
                   Edit
                 </button>
               </Link>
@@ -73,7 +72,7 @@ export default function PostsPage() {
             {session?.user?.name === post.user_name && (
               <button
                 onClick={() => handleDelete(post.id)}
-                className="bg-red-500 text-white p-2 rounded"
+                className="bg-danger text-white p-2 rounded"
               >
                 Delete
               </button>

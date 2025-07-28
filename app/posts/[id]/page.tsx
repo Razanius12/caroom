@@ -38,7 +38,7 @@ export default function ViewPostPage(context: { params: Promise<{ id: string }> 
 
   return (
     <div className="container mx-auto p-4">
-      <Link href="/posts" className="text-blue-500 hover:underline">
+      <Link href="/posts" className="text-decoration-none">
         Back to Posts
       </Link>
       <h1>{post.title}</h1>
@@ -48,7 +48,7 @@ export default function ViewPostPage(context: { params: Promise<{ id: string }> 
       <p>Type: {post.type}</p>
       {session?.user?.name === post.user_name && (
         <Link href={`/posts/${post.id}/edit`}>
-          <button className="bg-yellow-500 text-white p-2 rounded mr-2">
+          <button className="bg-warning p-2 rounded me-2">
             Edit
           </button>
         </Link>
@@ -56,7 +56,7 @@ export default function ViewPostPage(context: { params: Promise<{ id: string }> 
       {session?.user?.name === post.user_name && (
         <button
           onClick={handleDelete}
-          className="bg-red-500 text-white p-2 rounded"
+          className="bg-danger text-white p-2 rounded"
         >
           Delete
         </button>

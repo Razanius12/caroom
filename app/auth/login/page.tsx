@@ -51,13 +51,13 @@ export default function LoginPage() {
           required
           className="p-2 border rounded"
         />
-        <button type="submit" className="bg-blue-500 text-white p-2 rounded">
+        <button type="submit" className="bg-primary text-white p-2 rounded">
           Login
         </button>
       </form>
       <p className="mt-4">
         Don't have an account?{" "}
-        <Link href="/auth/register" className="text-blue-500 hover:underline">
+        <Link href="/auth/register" className="text-decoration-none">
           Register
         </Link>
       </p>

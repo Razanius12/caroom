@@ -47,7 +47,7 @@ export default function EditCarPage(context: { params: Promise<{ id: string }> }
 
   return (
     <div className="container mx-auto p-4">
-      <Link href={`/cars/${id}`} className="text-blue-500 hover:underline">
+      <Link href={`/cars/${id}`} className="text-decoration-none">
         Back to Car
       </Link>
       <h1 className="text-2xl font-bold mb-4">Edit Car</h1>
@@ -80,7 +80,7 @@ export default function EditCarPage(context: { params: Promise<{ id: string }> }
           onChange={(e) => setFormData({ ...formData, image_url: e.target.value })}
           className="p-2 border rounded"
         />
-        <button type="submit" className="bg-blue-500 text-white p-2 rounded">
+        <button type="submit" className="bg-primary text-white p-2 rounded">
           Save Changes
         </button>
       </form>

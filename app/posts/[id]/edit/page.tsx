@@ -81,60 +81,69 @@ export default function EditPostPage(context: { params: Promise<{ id: string }> 
 
   return (
     <div className="container mx-auto p-4">
-      <Link href={`/posts/${id}`} className="text-blue-500 hover:underline">
+      <Link href={`/posts/${id}`} className="text-decoration-none">
         Back to Post
       </Link>
-      <h1 className="text-2xl font-bold mb-4">Edit Post</h1>
-      <form onSubmit={handleSubmit} className="grid gap-4">
-        <input
-          type="text"
-          name="title"
-          placeholder="Title"
-          value={formData.title}
-          onChange={(e) => setFormData({ ...formData, title: e.target.value })}
-          required
-          className="p-2 border rounded"
-        />
-
-        <textarea
-          name="content"
-          placeholder="Content"
-          value={formData.content}
-          onChange={(e) => setFormData({ ...formData, content: e.target.value })}
-          required
-          className="p-2 border rounded min-h-[200px]"
-        />
-
-        <select
-          name="car_id"
-          value={formData.car_id}
-          onChange={(e) => setFormData({ ...formData, car_id: e.target.value })}
-          required
-          className="p-2 border rounded"
-        >
-          <option value="">Select a car</option>
-          {cars.map((car) => (
-            <option key={car.id} value={car.id}>
-              {car.make} {car.model}
-            </option>
-          ))}
-        </select>
-
-        <select
-          name="type"
-          value={formData.type}
-          onChange={(e) => setFormData({ ...formData, type: e.target.value })}
-          required
-          className="p-2 border rounded"
-        >
-          <option value="">Select a type</option>
-          <option value="discussion">Discussion</option>
-          <option value="review">Review</option>
-          <option value="question">Question</option>
-          <option value="news">News</option>
-        </select>
-
-        <button type="submit" className="bg-blue-500 text-white p-2 rounded">
+      <h1 className="text-2xl font-bold mb-2">Edit Post</h1>
+      <form onSubmit={handleSubmit} className="grid gap-2">
+        <label htmlFor="title">Title</label>
+        <div className="form-group mb-2">
+          <input
+            type="text"
+            name="title"
+            placeholder="Title"
+            value={formData.title}
+            onChange={(e) => setFormData({ ...formData, title: e.target.value })}
+            required
+            className="p-2 border rounded col-6"
+          />
+        </div>
+        <label htmlFor="content">Content</label>
+        <div className="form-group mb-2">
+          <textarea
+            name="content"
+            placeholder="Content"
+            value={formData.content}
+            onChange={(e) => setFormData({ ...formData, content: e.target.value })}
+            required
+            className="p-2 border rounded col-6 min-h-[400px]"
+          />
+        </div>
+        <label htmlFor="car_id">Car</label>
+        <div className="form-group mb-2">
+          <select
+            name="car_id"
+            value={formData.car_id}
+            onChange={(e) => setFormData({ ...formData, car_id: e.target.value })}
+            required
+            className="p-2 border rounded col-6"
+          >
+            <option value="">Select a car</option>
+            {cars.map((car) => (
+              <option key={car.id} value={car.id}>
+                {car.make} {car.model}
+              </option>
+            ))}
+          </select>
+        </div>
+        <label htmlFor="type">Post Type</label>
+        <div className="form-group mb-2">
+          <select
+            name="type"
+            value={formData.type}
+            onChange={(e) => setFormData({ ...formData, type: e.target.value })}
+            required
+            className="p-2 border rounded col-6"
+          >
+            <option value="">Select a type</option>
+            <option value="discussion">Discussion</option>
+            <option value="review">Review</option>
+            <option value="question">Question</option>
+            <option value="news">News</option>
+          </select>
+        </div>
+        <br />
+        <button type="submit" className="bg-primary text-white p-2 rounded">
           Update Post
         </button>
       </form>

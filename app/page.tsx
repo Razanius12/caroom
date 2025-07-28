@@ -5,11 +5,12 @@ export default function Home() {
     <div className="container mx-auto p-4">
       <h1 className="text-2xl font-bold">Welcome to the Forum</h1>
       <p className="mt-2 text-gray-600">Explore discussions and share your thoughts!</p>
-      <Link href="/posts" className="mt-4 inline-block bg-blue-500 text-white p-2 rounded">
+      <Link href="/posts" className="mt-5 inline-block bg-primary text-white p-2 rounded text-decoration-none">
         Go to Posts
       </Link>
       <br />
-      <Link href="/cars" className="mt-4 inline-block bg-blue-500 text-white p-2 rounded">
+      <br />
+      <Link href="/cars" className="mt-5 inline-block bg-primary text-white p-2 rounded text-decoration-none">
         Car List
       </Link>
     </div>

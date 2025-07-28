@@ -7,6 +7,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '@/app/lib/store';
 import { setCars, addCar, updateCar, deleteCar } from '@/app/lib/features/carSlice';
 import { Car } from '@/app/lib/definitions';
+import { BackToHome } from '../components/BackToHome';
 
 export default function CarsPage() {
   const { data: session } = useSession();
@@ -71,13 +72,11 @@ export default function CarsPage() {
 
   return (
     <div className="container mx-auto p-4">
-      <Link href="/" className="text-blue-500 hover:underline">
-        Back to Home
-      </Link>
+      <BackToHome />
       <h1 className="text-2xl font-bold mb-4">Car List</h1>
 
       {session && (
-        <form onSubmit={handleSubmit} className="mb-8">
+        <form onSubmit={handleSubmit} className="mb-2">
           <div className="grid gap-4">
             <input
               type="text"
@@ -107,7 +106,7 @@ export default function CarsPage() {
               onChange={(e) => setFormData({ ...formData, image_url: e.target.value })}
               className="p-2 border rounded"
             />
-            <button type="submit" className="bg-blue-500 text-white p-2 rounded">
+            <button type="submit" className="bg-info p-2 rounded">
               {editMode ? 'Update Car' : 'Add Car'}
             </button>
           </div>
@@ -118,18 +117,21 @@ export default function CarsPage() {
         {cars.map((car) => (
           <div key={car.id} className="border p-4 rounded">
             <h3>{car.make} {car.model} ({car.year})</h3>
-            <img src={car.image_url || ''} alt={`${car.make} ${car.model}`} className="w-32 h-32 object-cover" />
+
+            {car.image_url && (
+              <img src={car.image_url} alt={`${car.make} ${car.model}`} className="w-full h-auto mb-2" />
+            )}
             
             {session && (
             <div className="mt-2">
               <Link href={`/cars/${car.id}/edit`}>
-                <button className="bg-yellow-500 text-white p-2 rounded mr-2">
+                <button className="bg-warning p-2 rounded me-2">
                   Edit
                 </button>
               </Link>
               <button
                 onClick={() => handleDelete(car.id)}
-                className="bg-red-500 text-white p-2 rounded"
+                className="bg-danger text-white p-2 rounded"
               >
                 Delete
               </button>
