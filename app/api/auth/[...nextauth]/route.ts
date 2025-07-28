@@ -1,6 +1,6 @@
 import NextAuth from "next-auth";
 import { DefaultSession } from "next-auth";
-import { authOptions } from "../auth.config";
+import { authOptions } from '@/app/api/auth/auth.config';
 
 declare module "next-auth" {
   interface Session {

@@ -1,7 +1,7 @@
 import { getServerSession } from "next-auth/next";
 import { NextResponse } from 'next/server';
 import postgres from 'postgres';
-import { authOptions } from '../auth/auth.config';
+import { authOptions } from '@/app/api/auth/auth.config';
 
 const sql = postgres(process.env.POSTGRES_URL!, { ssl: 'require' });
 
@@ -21,14 +21,10 @@ export async function GET() {
   try {
     const posts = await sql`
     SELECT
-      posts.id,
-      posts.title,
+      posts.*,
       users.name as user_name,
       cars.make as car_make,
-      cars.model as car_model,
-      posts.created_at,
-      posts.type,
-      posts.likes
+      cars.model as car_model
     FROM posts
     JOIN users ON posts.user_id = users.id
     JOIN cars ON posts.car_id = cars.id

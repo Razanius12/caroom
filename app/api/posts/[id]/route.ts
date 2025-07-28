@@ -1,7 +1,7 @@
 import { NextResponse, NextRequest } from 'next/server';
 import postgres from 'postgres';
 import { getServerSession } from "next-auth/next";
-import { authOptions } from '../../auth/auth.config';
+import { authOptions } from '@/app/api/auth/auth.config';
 
 const sql = postgres(process.env.POSTGRES_URL!, { ssl: 'require' });
 
@@ -25,7 +25,26 @@ export async function GET(request: NextRequest, context: { params: Promise<{ id:
       return NextResponse.json({ error: 'Post not found' }, { status: 404 });
     }
 
-    return NextResponse.json(post[0]);
+    const comments = await sql`
+      SELECT 
+        c.id,
+        c.content,
+        c.created_at,
+        c.user_id,
+        u.name as user_name,
+        u.avatar_url as user_avatar
+      FROM comments c
+      JOIN users u ON c.user_id = u.id
+      WHERE c.post_id = ${id}
+      ORDER BY c.created_at DESC
+    `;
+
+    const postWithComments = {
+      ...post[0],
+      comments: comments
+    };
+
+    return NextResponse.json(postWithComments);
   } catch (error) {
     return NextResponse.json({ error: 'Failed to fetch post' }, { status: 500 });
   }

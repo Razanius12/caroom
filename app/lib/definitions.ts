@@ -32,6 +32,8 @@ export type Comment = {
   id: string;
   post_id: string;
   user_id: string;
+  user_name: string;
+  user_avatar: string;
   content: string;
   created_at: string;
 };
@@ -62,4 +64,5 @@ export type PostsTable = {
   created_at: string;
   type: 'discussion' | 'review' | 'question' | 'news';
   likes: number;
+  comments: Comment[];
 };

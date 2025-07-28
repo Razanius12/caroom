@@ -16,7 +16,7 @@ export default async function RootLayout({ children }: { children: ReactNode }) 
             <Link href="/" className="text-xl font-bold text-decoration-none">
               Caroom
             </Link>
-            <div>
+            <div className="pull-right">
               {session?.user ? (
                 <div className="flex items-center gap-4">
                   <span>Welcome, {session.user.name} </span>
