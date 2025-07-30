@@ -28,6 +28,7 @@ export async function GET() {
     FROM posts
     JOIN users ON posts.user_id = users.id
     JOIN cars ON posts.car_id = cars.id
+    ORDER BY posts.created_at DESC
 `;
     return NextResponse.json(posts);
   } catch (error) {

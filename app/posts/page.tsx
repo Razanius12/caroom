@@ -7,6 +7,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '@/app/lib/store';
 import { setPosts, deletePost } from '@/app/lib/features/postSlice';
 import { BackToHome } from '../components/BackToHome';
+import Loading from '../loading';
 
 export default function PostsPage() {
   const dispatch = useDispatch();
@@ -35,11 +36,11 @@ export default function PostsPage() {
     }
   };
 
-  if (loading) return <div>Loading...</div>;
+  if (loading) return <Loading />;
   if (error) return <div>Error: {error}</div>;
 
   return (
-    <div className="container mx-auto p-4">
+    <div className="container p-4">
       <BackToHome />
       <h1>Posts</h1>
 
@@ -58,7 +59,7 @@ export default function PostsPage() {
             <Link href={`/posts/${post.id}`}>
               <h2 className="text-blue-500 hover:underline">{post.title}</h2>
             </Link>
-            <p>{post.content}</p>
+            <p>{post.content.length > 100 ? post.content.substring(0, 100) + '...' : post.content}</p>
             <p>By: {post.user_name}</p>
             <p>Car: {post.car_make} {post.car_model}</p>
             <p>Type: {post.type}</p>

@@ -11,14 +11,14 @@ export default async function RootLayout({ children }: { children: ReactNode }) 
   return (
     <html lang="en">
       <body>
-        <header className="bg-white shadow">
-          <nav className="container mx-auto p-4 flex justify-between items-center">
+        <header className="bg-white shadow-sm">
+          <nav className="container p-4 d-flex justify-content-between align-items-center">
             <Link href="/" className="text-xl font-bold text-decoration-none">
               Caroom
             </Link>
             <div className="pull-right">
               {session?.user ? (
-                <div className="flex items-center gap-4">
+                <div className="d-flex align-items-center gap-4">
                   <span>Welcome, {session.user.name} </span>
                   <Link href="/api/auth/signout" className="text-decoration-none">
                     Sign out

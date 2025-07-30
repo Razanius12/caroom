@@ -59,12 +59,12 @@ export default function AddPostPage() {
   };
 
   return (
-    <div className="container mx-auto p-4">
+    <div className="container p-4">
       <Link href="/posts" className="text-decoration-none">
         Back to Posts
       </Link>
-      <h1 className="text-2xl font-bold mb-4">Add New Post</h1>
-      <form onSubmit={handleSubmit} className="grid gap-4">
+      <h1 className="h2 mb-4">Add New Post</h1>
+      <form onSubmit={handleSubmit} className="d-grid gap-4">
         <label htmlFor="title">Title</label>
         <div className="form-group mb-2">
           <input type="text" name="title" placeholder="Title" required className="p-2 border rounded col-6" />

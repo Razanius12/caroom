@@ -46,12 +46,12 @@ export default function EditCarPage(context: { params: Promise<{ id: string }> }
   };
 
   return (
-    <div className="container mx-auto p-4">
+    <div className="container p-4">
       <Link href={`/cars/${id}`} className="text-decoration-none">
         Back to Car
       </Link>
-      <h1 className="text-2xl font-bold mb-4">Edit Car</h1>
-      <form onSubmit={handleSubmit} className="grid gap-4">
+      <h1 className="h2 mb-4">Edit Car</h1>
+      <form onSubmit={handleSubmit} className="d-grid gap-4">
         <input
           type="text"
           placeholder="Make"

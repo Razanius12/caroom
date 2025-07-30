@@ -8,6 +8,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '@/app/lib/store';
 import { updatePost } from '@/app/lib/features/postSlice';
 import { setCars } from '@/app/lib/features/carSlice';
+import Loading from '@/app/loading';
 
 export default function EditPostPage(context: { params: Promise<{ id: string }> }) {
   const { id } = React.use(context.params);
@@ -76,11 +77,11 @@ export default function EditPostPage(context: { params: Promise<{ id: string }> 
   };
 
   if (isLoading) {
-    return <div>Loading...</div>;
+    return <Loading />;
   }
 
   return (
-    <div className="container mx-auto p-4">
+    <div className="container p-4">
       <Link href={`/posts/${id}`} className="text-decoration-none">
         Back to Post
       </Link>
@@ -106,7 +107,8 @@ export default function EditPostPage(context: { params: Promise<{ id: string }> 
             value={formData.content}
             onChange={(e) => setFormData({ ...formData, content: e.target.value })}
             required
-            className="p-2 border rounded col-6 min-h-[400px]"
+            className="p-2 border rounded col-6"
+            rows={5}
           />
         </div>
         <label htmlFor="car_id">Car</label>

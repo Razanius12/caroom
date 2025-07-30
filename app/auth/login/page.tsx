@@ -33,34 +33,44 @@ export default function LoginPage() {
   }
 
   return (
-    <div className="container mx-auto p-4">
-      <h1 className="text-2xl font-bold mb-4">Login</h1>
-      {error && <p className="text-red-500 mb-4">{error}</p>}
-      <form onSubmit={handleSubmit} className="max-w-md grid gap-4">
-        <input
-          type="email"
-          name="email"
-          placeholder="Email"
-          required
-          className="p-2 border rounded"
-        />
-        <input
-          type="password"
-          name="password"
-          placeholder="Password"
-          required
-          className="p-2 border rounded"
-        />
-        <button type="submit" className="bg-primary text-white p-2 rounded">
-          Login
-        </button>
-      </form>
-      <p className="mt-4">
-        Don't have an account?{" "}
-        <Link href="/auth/register" className="text-decoration-none">
-          Register
-        </Link>
-      </p>
+    <div
+      className="d-flex align-items-center justify-content-center"
+      style={{ minHeight: "calc(100vh - 72px)" }} // 72px = navbar height
+    >
+      <div className="card shadow rounded-4 p-4" style={{ minWidth: 350, maxWidth: 400 }}>
+        <h1 className="h3 mb-3 fw-bold text-center">Welcome back</h1>
+        <p className="text-center text-muted mb-4">Please sign in to your account</p>
+        {error && <div className="alert alert-danger py-2">{error}</div>}
+        <form onSubmit={handleSubmit}>
+          <div className="mb-3">
+            <input
+              type="email"
+              name="email"
+              placeholder="Email address"
+              required
+              className="form-control"
+            />
+          </div>
+          <div className="mb-3">
+            <input
+              type="password"
+              name="password"
+              placeholder="Password"
+              required
+              className="form-control"
+            />
+          </div>
+          <button type="submit" className="btn btn-primary w-100 mb-2">
+            Sign in
+          </button>
+        </form>
+        <div className="text-center mt-3">
+          <span className="text-muted">Don't have an account? </span>
+          <Link href="/auth/register" className="link-primary">
+            Create an account
+          </Link>
+        </div>
+      </div>
     </div>
   );
 }

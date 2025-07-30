@@ -97,7 +97,7 @@ export default function ViewPostPage(context: { params: Promise<{ id: string }> 
   const post = posts[0];
 
   return (
-    <div className="container mx-auto p-4">
+    <div className="container p-4">
       <Link href="/posts" className="text-decoration-none">
         Back to Posts
       </Link>

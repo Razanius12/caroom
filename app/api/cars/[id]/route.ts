@@ -23,8 +23,8 @@ export async function DELETE(request: NextRequest, context: { params: Promise<{ 
   const { id } = await context.params;
   try {
     const postExists = await sql`SELECT * FROM posts WHERE car_id = ${id}`;
-    if (postExists) {
-      return NextResponse.json({ error: 'Car is associated with a post and cannot be deleted' }, { status: 400 });
+    if (postExists.length > 0) {
+      return NextResponse.json({ error: 'Car is associated with posts and cannot be deleted' }, { status: 400 });
     }
     await sql`DELETE FROM cars WHERE id = ${id}`;
     return NextResponse.json({ message: 'Car deleted successfully' });

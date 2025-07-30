@@ -8,6 +8,7 @@ import { RootState } from '@/app/lib/store';
 import { setCars, addCar, updateCar, deleteCar } from '@/app/lib/features/carSlice';
 import { Car } from '@/app/lib/definitions';
 import { BackToHome } from '../components/BackToHome';
+import Loading from '../loading';
 
 export default function CarsPage() {
   const { data: session } = useSession();
@@ -60,24 +61,36 @@ export default function CarsPage() {
 
   const handleDelete = async (id: string) => {
     try {
-      await fetch(`/api/cars/${id}`, { method: 'DELETE' });
-      dispatch(deleteCar(id));
+      const response = await fetch(`/api/cars/${id}`, { method: 'DELETE' });
+      const data = await response.json();
+
+      if (response.status === 400) {
+        alert(data.error);
+        return;
+      }
+
+      if (response.ok) {
+        dispatch(deleteCar(id));
+      } else {
+        alert('Failed to delete car');
+      }
     } catch (error) {
       console.error('Error deleting car:', error);
+      alert('Error deleting car');
     }
   };
 
-  if (loading) return <div>Loading...</div>;
+  if (loading) return <Loading />;
   if (error) return <div>Error: {error}</div>;
 
   return (
-    <div className="container mx-auto p-4">
+    <div className="container p-4">
       <BackToHome />
-      <h1 className="text-2xl font-bold mb-4">Car List</h1>
+      <h1 className="h2 mb-4">Car List</h1>
 
       {session && (
         <form onSubmit={handleSubmit} className="mb-2">
-          <div className="grid gap-4">
+          <div className="d-grid gap-4">
             <input
               type="text"
               placeholder="Make"
@@ -113,29 +126,29 @@ export default function CarsPage() {
         </form>
       )}
 
-      <div className="grid gap-4">
+      <div className="d-grid gap-4">
         {cars.map((car) => (
           <div key={car.id} className="border p-4 rounded">
             <h3>{car.make} {car.model} ({car.year})</h3>
 
             {car.image_url && (
-              <img src={car.image_url} alt={`${car.make} ${car.model}`} className="w-full h-auto mb-2" />
+              <img src={car.image_url} alt={`${car.make} ${car.model}`} className="img-fluid mb-2" />
             )}
-            
+
             {session && (
-            <div className="mt-2">
-              <Link href={`/cars/${car.id}/edit`}>
-                <button className="bg-warning p-2 rounded me-2">
-                  Edit
+              <div className="mt-2">
+                <Link href={`/cars/${car.id}/edit`}>
+                  <button className="bg-warning p-2 rounded me-2">
+                    Edit
+                  </button>
+                </Link>
+                <button
+                  onClick={() => handleDelete(car.id)}
+                  className="bg-danger text-white p-2 rounded"
+                >
+                  Delete
                 </button>
-              </Link>
-              <button
-                onClick={() => handleDelete(car.id)}
-                className="bg-danger text-white p-2 rounded"
-              >
-                Delete
-              </button>
-            </div>
+              </div>
             )}
 
           </div>
